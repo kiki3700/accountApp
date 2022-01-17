@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.ReportMapper">
+	<select id ='selectReports' parameterType = 'ReportDto' resultType = 'ReportDto'>
+		select a.* from(
+			select * from reports
+				where
+				user_id = #{userId}
+				<if test = 'hidden == false'>
+				and not (hidden is true)
+				</if>
+				<if test ='reportingDate != null'>
+				and month(reporting_date) = month(#{reportingDate})
+				</if>
+				<if test ='reportingDate != null'>
+				and year(reporting_date) = year(#{reportingDate})
+				</if>
+				<if test = 'hidden == true'>
+				and hidden is true
+				</if>
+				order by reporting_date desc
+			) a
+			<if test = "paging == true">
+			limit #{length} offset #{start}
+			</if>
+			
+	</select>
+	<insert id = 'insertReport' parameterType = 'ReportDto'>
+		insert into
+		reports(amount,
+			main_category,
+			sub_category,
+			reporting_date,
+			user_id,
+			memo)
+		values(
+			#{amount},
+			#{mainCategory},
+			#{subCategory},
+			#{reportingDate},
+			#{userId},
+			#{memo,jdbcType=VARCHAR}
+		)
+	</insert>
+	<update id = 'updateReport' parameterType = 'ReportDto'>
+		update reports
+			set amount = #{amount},
+			  	sub_category = #{subCategory}, 
+				memo = #{memo}
+		where id = #{id} 
+	</update>
+	
+	<update id = 'updateReportForDelete' parameterType = 'ReportDto'>
+		update reports
+			set hidden = #{hidden}
+		where id = #{id} 
+	</update>
+	
+	<select id = 'selectSubCategoryList' parameterType = 'ReportDto' resultType = 'String'>
+		select distinct(sub_category) as sub_category
+		from reports
+		where user_id = #{userId} 
+	</select>
+	<select id = 'selectCostPieChart' parameterType = 'ReportDto' resultType = 'ReportDto'>
+		select sub_category, sum(amount) as amount
+		 from reports
+		 where 
+		 user_id = #{userId}
+		 and main_category = '지출'
+		 and not(hidden is true)
+		<if test ='reportingDate != null'>
+		and month(reporting_date) = month(#{reportingDate})
+		</if>
+		<if test ='reportingDate != null'>
+		and year(reporting_date) = year(#{reportingDate})
+		</if>
+		 group by sub_category;
+	</select>
+	<select id = 'selectAnalyzeByMonthBarChar' parameterType= 'ReportDto' resultType ='HashMap'>
+		select month(reporting_date) month, sum(amount)  amount, main_category category
+		from reports
+		where user_id = #{userId}
+		and year(reporting_date) = year(#{reportingDate})
+		group by main_category, 
+			month(reporting_date)
+			order by month, main_category
+	</select>
+</mapper>

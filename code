@@ -1,0 +1,3 @@
+source /home/ben/eclipse-workspace/Accounting-1/ddl.sql
+source /home/ben/eclipse-workspace/Accounting-1/testData.sql
+

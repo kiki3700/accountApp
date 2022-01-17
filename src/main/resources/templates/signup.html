@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>회원가입 페이지</title>
+<script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
+<link th:href="@{/css/main.css}" rel="stylesheet" />
+<script type="text/javascript" th:src="@{/js/signup.js}"></script>
+</head>
+<body>
+<h1>회원가입</h1>
+<fieldset>
+	<legend>개인 정보 입력</legend>
+	<div class ='form-con'>
+		아이디 : <input type = "text" id = 'id' name ='id' placeholder = 'kiki3700@naver.com' required autofocus/> <button id = 'verifyIdBtn'>중복확인</button><br><br>
+		이 름 : <input type = "text" id = 'name' name ='name' placeholder = '이성현'  minlength = 3 maxlength = 6 required/><br><br>
+		비밀번호 : <input type = "password" id = 'password' name ='password' placeholder = '********'  minlength = 8 maxlength = 12 required/><br><br>
+	</div>
+	<button id = 'submitBtn'>회원가입</button>
+</fieldset>
+
+</body>
+</html>

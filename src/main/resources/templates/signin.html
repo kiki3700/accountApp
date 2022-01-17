@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>로그인 페이지</title>
+<script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
+<link th:href="@{/css/main.css}" rel="stylesheet" />
+<script type="text/javascript" th:src="@{/js/signin.js}"></script>
+</head>
+<body>
+<h1>login page</h1>
+<fieldset>
+	<legend>로그인</legend>
+	<div class ='form-con'>
+		아 이 디 : <input type = "text" id = 'id' name ='id' placeholder = 'kiki3700@naver.com' required autofocus/><br><br>
+		비밀번호 : <input type = "password" id = 'password' name ='password' placeholder ='********' minlength = 8 maxlength = 12 required/><br><br>
+	</div>
+	<button id = 'signinBtn'>로그인</button> <a th:href="@{/signup}"><button id = 'signupBtn'>회원가입</button></a>
+</fieldset>
+</body>
+</html>

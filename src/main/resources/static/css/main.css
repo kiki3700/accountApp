@@ -1,0 +1,40 @@
+@charset "UTF-8";
+body{
+	background-color: rgb(243, 243, 243);
+	text-align : center;
+	padding: 20px 50px;
+}
+
+.form-con{
+	
+}
+
+nav{
+	display : flex;
+	justify-content : space-evenly;
+}
+#reportForm{
+	display : none;
+}
+
+#controller{
+	display : flex;
+	justify-content : center;
+}
+
+#memo{
+	height: 40px;
+	word-break:break-all;
+}
+.reports_list{
+	list-style: none;
+}
+.trash-art{
+	display : none;
+}
+.trash-list{
+	list-style: none;
+}
+.analyze-art{
+	display : none;
+}

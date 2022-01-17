@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<link th:href="@{/css/main.css}" rel="stylesheet" />
+<link th:href="@{/css/accounting.css}" rel="stylesheet" />
+<script type="text/javascript" th:src="@{/js/accounting.js}"></script>
+</head>
+<body>
+
+<nav>
+	<button class = 'move-btn' id ='analyze-btn'>이력 분석</button>
+	<button class = 'move-btn' id = 'report-btn'>가계부</button>
+	<button class = 'move-btn' id='trash-btn'>휴지통</button>
+	<button id = 'signout-btn'>로그아웃</button>
+</nav>
+<h1>accounting</h1>
+<div id = 'hello'></div>
+<br>
+<article class ='analyze-art'>
+	<fieldset >
+		<div class ='chart-con'>
+			<div id = 'pie-chart'>
+			 	지출 내역이 존재하지 않습니다.
+			</div>
+		</div>
+	</fieldset>
+</article>
+<article class = 'report-art'>
+	<section id = 'controller'>
+		<button id ='minus'><</button>
+		<div id = 'date'></div>
+		<button id ='plus'>></button>
+	</section>
+<br>
+	<button id = 'plusBtn'>+</button>
+	<div class ='form-con' id = 'reportForm'>
+		금 액 :  <input id = 'amount' type = 'number' min = '10' step = 'any'><br>
+		구 분 :  <select id = 'main_catagory' name ='main_category'>
+				<option value ='지출'>지출</option>
+				<option value = '수입'>수입</option>
+			</select><br>
+		내 역 : <input id = 'sub_category' name ='sub_category' type ='text' autocomplete ='on'><br>
+		지출일자 : <input id = 'reporting_date' type = 'date'><br>
+		메 모 : <input id = 'memo' type = 'text'><br><br>
+		<button id = 'submitReport'>등록</button>
+	</div>
+	<br><br>
+	<fieldset>
+		<section class ='reports_con'>
+			<ul class = 'reports_list'></ul>
+		</section>
+		<button id = 'scroll-btn'>V</button>
+	</fieldset>
+</article>
+
+<article class ='trash-art'>
+	<fieldset>
+		<ul class ='trash-list'></ul>
+	</fieldset>
+</article>
+
+</body>
+</html>
