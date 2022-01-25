@@ -35,9 +35,9 @@ public class UserController {
 	
 	@GetMapping("/signin")
 	public ModelAndView getLoginPage() {
-		logger.debug("=======================================");
-		logger.debug("get login Page");
-		logger.debug("=======================================");
+//		logger.debug("=======================================");
+//		logger.debug("get login Page");
+//		logger.debug("=======================================");
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("signin");
 		return mv;
@@ -45,9 +45,9 @@ public class UserController {
 	
 	@GetMapping("/signup")
 	public ModelAndView getSignupPage() {
-		logger.debug("=======================================");
-		logger.debug("get signup Page");
-		logger.debug("=======================================");
+//		logger.debug("=======================================");
+//		logger.debug("get signup Page");
+//		logger.debug("=======================================");
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("signup");
 		return mv;
@@ -55,9 +55,9 @@ public class UserController {
 	
 	@PostMapping("/signin")
 	public ResponseEntity<Void> signin(@RequestBody UserDto userDto, HttpServletResponse res){
-		logger.debug("=======================================");
-		logger.debug("signin start");
-		logger.debug("=======================================");
+//		logger.debug("=======================================");
+//		logger.debug("signin start");
+//		logger.debug("=======================================");
 		boolean validate = userService.signIn(userDto);
 		logger.debug("infor mation validate result : "+ validate);
 		if(validate) {
@@ -75,35 +75,35 @@ public class UserController {
 			logger.debug("refresh-token" +tokenDto.getRefreshToken());
 			res.addCookie(accessToken);
 			res.addCookie(refreshToken);
-			logger.debug("=======================================");
-			logger.debug("sign in success");
-			logger.debug("=======================================");
+//			logger.debug("=======================================");
+//			logger.debug("sign in success");
+//			logger.debug("=======================================");
 			return ResponseEntity.ok().build();
 		}
-		logger.debug("=======================================");
-		logger.debug("sign in fail");
-		logger.debug("=======================================");
+//		logger.debug("=======================================");
+//		logger.debug("sign in fail");
+//		logger.debug("=======================================");
 		return ResponseEntity.badRequest().build();
 	}
 	
 
 	@GetMapping("/verifyUser")
 	public ResponseEntity<Boolean> checkIdVerification(@RequestParam String id) {
-		logger.debug("=======================================");
-		logger.debug("verify user start");
-		logger.debug("=======================================");
+//		logger.debug("=======================================");
+//		logger.debug("verify user start");
+//		logger.debug("=======================================");
 		boolean verification =  userService.verifyId(id);
 		logger.debug("result : " + verification);
-		logger.debug("=======================================");
-		logger.debug("verify user finish");
-		logger.debug("=======================================");
+//		logger.debug("=======================================");
+//		logger.debug("verify user finish");
+//		logger.debug("=======================================");
 		return ResponseEntity.ok().body(verification);		
 	}
 	@GetMapping("/user")
 	public ResponseEntity<UserDto> getUserInfo(@CookieValue(name = "access-token", required = false) String accessToken,@CookieValue(name = "refresh-token", required = false) String refreshToken){
-		logger.debug("=======================================");
-		logger.debug("get user brif infomation start");
-		logger.debug("=======================================");
+//		logger.debug("=======================================");
+//		logger.debug("get user brif infomation start");
+//		logger.debug("=======================================");
 		TokenDto tokenDto = new TokenDto();
 		tokenDto.setAsscessToken(accessToken);
 		tokenDto.setRefreshToken(refreshToken);
@@ -116,40 +116,40 @@ public class UserController {
 			return ResponseEntity.badRequest().build();
 		}
 		logger.debug("user is" +userDto);
-		logger.debug("=======================================");
-		logger.debug("get user brif infomation finish");
-		logger.debug("=======================================");
+//		logger.debug("=======================================");
+//		logger.debug("get user brif infomation finish");
+//		logger.debug("=======================================");
 		return ResponseEntity.ok().body(userDto);
 	}
 	@PostMapping("/user")
 	public ResponseEntity<Boolean> signup(@RequestBody UserDto userDto) {
-		logger.debug("=======================================");
-		logger.debug("post new user start");
-		logger.debug("=======================================");
+//		logger.debug("=======================================");
+//		logger.debug("post new user start");
+//		logger.debug("=======================================");
 		boolean result =  userService.signUp(userDto);
 		logger.debug("result is " +result);
-		logger.debug("=======================================");
-		logger.debug("post new user finish");
-		logger.debug("=======================================");
+//		logger.debug("=======================================");
+//		logger.debug("post new user finish");
+//		logger.debug("=======================================");
 		return ResponseEntity.ok().body(result);	
 	}
 	@GetMapping("/signout")
 	public ResponseEntity<Void> UserController(@CookieValue(name = "refresh-token", required = false) String refreshToken){
-		logger.debug("=======================================");
-		logger.debug("sign out start");
-		logger.debug("=======================================");
+//		logger.debug("=======================================");
+//		logger.debug("sign out start");
+//		logger.debug("=======================================");
 		if(refreshToken==null) {
-			logger.debug("=======================================");
-			logger.debug("sign out finish");
-			logger.debug("=======================================");
+//			logger.debug("=======================================");
+//			logger.debug("sign out finish");
+//			logger.debug("=======================================");
 			return ResponseEntity.badRequest().build();
 		}
 		TokenDto tokenDto = new TokenDto();
 		tokenDto.setRefreshToken(refreshToken);
 		boolean result = userService.signOut(tokenDto);		
-		logger.debug("=======================================");
-		logger.debug("sign out finish");
-		logger.debug("=======================================");
+//		logger.debug("=======================================");
+//		logger.debug("sign out finish");
+//		logger.debug("=======================================");
 		return ResponseEntity.ok().build();
 		
 	}
