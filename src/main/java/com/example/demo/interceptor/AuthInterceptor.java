@@ -24,8 +24,6 @@ public class AuthInterceptor implements HandlerInterceptor{
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	AuthUtil authUtil;
-	@Autowired
 	UserMapper userMapper;
 	@Override
 	
@@ -81,7 +79,7 @@ public class AuthInterceptor implements HandlerInterceptor{
 			return false;
 		}
 
-			if(authUtil.validateToken(accessToken)) {
+			if(AuthUtil.validateToken(accessToken)) {
 				logger.debug("access token is valid");
 				logger.debug("=================================");
 				logger.debug("AuthInterceptor finish");
@@ -91,9 +89,9 @@ public class AuthInterceptor implements HandlerInterceptor{
 			logger.debug("access-token is expired");
 
 
-			if(authUtil.validateToken(refreshToken)) {
+			if(AuthUtil.validateToken(refreshToken)) {
 				logger.debug("refresh token is validated");
-				accessToken = authUtil.generateAccessToken(userDto);
+				accessToken = AuthUtil.generateAccessToken(userDto);
 				Cookie cookie = new Cookie("access-token", accessToken);
 				cookie.setMaxAge(1000*60*30);
 				cookie.setPath("/");

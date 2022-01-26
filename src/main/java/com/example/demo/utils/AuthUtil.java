@@ -18,14 +18,13 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 
-@Component
 public class AuthUtil {
 	
-	private final Logger logger = LoggerFactory.getLogger(this.getClass()); 
+	private static final Logger logger = LoggerFactory.getLogger(AuthUtil.class); 
 	
 	   private static final String JWT_SECRET = "secretKey";
 
-	    public String generateAccessToken(UserDto user) {
+	    public static String generateAccessToken(UserDto user) {
 	        Date now = new Date();
 	        Date expiryDate = new Date(now.getTime() + 1000*60*30L);
 	        return Jwts.builder()
@@ -37,7 +36,7 @@ public class AuthUtil {
 	            .compact();
 	    }
 	    
-	    public String generateRefreshToken() {
+	    public static String generateRefreshToken() {
 	        Date now = new Date();
 	        Date expiryDate = new Date(now.getTime() + 1000*60*60*24*7L);
 	        return Jwts.builder()
@@ -48,7 +47,7 @@ public class AuthUtil {
 		            .compact();
 	    }
 
-	    public String getUserIdFromJWT(String token){
+	    public static String getUserIdFromJWT(String token){
 	    	try{
 	    		Claims claims = Jwts.parser()
 	    				.setSigningKey(JWT_SECRET)
@@ -63,7 +62,7 @@ public class AuthUtil {
 	    }
 
 	    // Jwt 토큰 유효성 검사
-	    public boolean validateToken(String token) throws SignatureException{
+	    public static boolean validateToken(String token) throws SignatureException{
 	        try {
 	            Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
 	            return true;
@@ -79,13 +78,13 @@ public class AuthUtil {
 	        return false;
 	    }
 	
-	public String encypt(String text) throws NoSuchAlgorithmException {
+	public static String encypt(String text) throws NoSuchAlgorithmException {
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
 		md.update(text.getBytes());
 		return bytesToHex(md.digest());
 	}
 	
-	private String bytesToHex(byte[] bytes) {
+	private static String bytesToHex(byte[] bytes) {
 		StringBuilder sb = new StringBuilder();
 		for(byte b : bytes) {
 			sb.append(String.format("%02x", b));

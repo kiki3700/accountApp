@@ -31,8 +31,6 @@ public class AccountingController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	AuthUtil authUtil;
-	@Autowired
 	ReportService reportService;
 	
 	@GetMapping("")
@@ -54,7 +52,7 @@ public class AccountingController {
 //		logger.debug("hidden : "+hidden);
 //		logger.debug("date : "+reportingDate);
 		ReportDto reportDto = new ReportDto();
-		String UserId = authUtil.getUserIdFromJWT(accessToken);
+		String UserId = AuthUtil.getUserIdFromJWT(accessToken);
 		reportDto.setUserId(UserId);
 		reportDto.setReportingDate(reportingDate);
 		reportDto.setHidden(hidden);
@@ -77,7 +75,7 @@ public class AccountingController {
 //		logger.debug("post report start");
 //		logger.debug("=======================================");
 		logger.debug(accessToken);
-		String userId = authUtil.getUserIdFromJWT(accessToken);
+		String userId = AuthUtil.getUserIdFromJWT(accessToken);
 		logger.debug("user : "+userId);
 		reportDto.setUserId(userId);
 		logger.debug(reportDto.toString());
@@ -127,7 +125,7 @@ public class AccountingController {
 //		logger.debug("get CostPieChart start");
 //		logger.debug("=======================================");
 		ReportDto reportDto = new ReportDto();
-		String id = authUtil.getUserIdFromJWT(accessToken);
+		String id = AuthUtil.getUserIdFromJWT(accessToken);
 		reportDto.setUserId(id);
 		reportDto.setReportingDate(reportingDate);
 		List<List<Object>> reportDtoList = reportService.getCostPieChart(reportDto);
@@ -142,7 +140,7 @@ public class AccountingController {
 //		logger.debug("get CostBarChart start");
 //		logger.debug("=======================================");
 		ReportDto reportDto = new ReportDto();
-		String id = authUtil.getUserIdFromJWT(accessToken);
+		String id = AuthUtil.getUserIdFromJWT(accessToken);
 		reportDto.setUserId(id);
 		reportDto.setReportingDate(reportingDate);
 		List<List<Object>> chartDataList = reportService.selectAnalyzeByMonthBarChart(reportDto);

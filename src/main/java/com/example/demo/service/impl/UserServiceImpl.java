@@ -21,8 +21,6 @@ public class UserServiceImpl implements UserService{
 	 private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	AuthUtil authUtil;
-	@Autowired
 	UserMapper userMapper;
 	
 	@Override
@@ -34,7 +32,7 @@ public class UserServiceImpl implements UserService{
 		String password = userDto.getPassword();
 		try {
 			logger.debug("encrypt password .....");
-			String encrypt = authUtil.encypt(password);
+			String encrypt = AuthUtil.encypt(password);
 			userDto.setPassword(encrypt);
 			logger.debug("encrypt password success");
 		} catch (NoSuchAlgorithmException e) {
@@ -82,7 +80,7 @@ public class UserServiceImpl implements UserService{
 		userDto = userMapper.selectUserDtoByRefreshToken(refreshToken);
 		logger.debug("user got by token : "+ (userDto!=null));
 		if(userDto==null) return null;
-		boolean valid = authUtil.validateToken(refreshToken);
+		boolean valid = AuthUtil.validateToken(refreshToken);
 		logger.debug("refreshToken validation : "+ valid);
 		logger.debug("=======================================");
 		logger.debug("get user brif infomation service finish");
@@ -101,7 +99,7 @@ public class UserServiceImpl implements UserService{
 		if(user!=null) {
 			logger.debug("pass word check....");
 			try {
-				String encryptedPassword = authUtil.encypt(userDto.getPassword());
+				String encryptedPassword = AuthUtil.encypt(userDto.getPassword());
 				if(encryptedPassword.equals(user.getPassword())) {
 					logger.debug("validate user information");
 					return true;
@@ -123,8 +121,8 @@ public class UserServiceImpl implements UserService{
 		logger.debug("enroll token start");
 		logger.debug("=======================");
 		TokenDto tokenDto = new TokenDto();
-		String accessToken = authUtil.generateAccessToken(userDto);
-		String refreshToken = authUtil.generateRefreshToken();
+		String accessToken = AuthUtil.generateAccessToken(userDto);
+		String refreshToken = AuthUtil.generateRefreshToken();
 		tokenDto.setAsscessToken(accessToken);
 		tokenDto.setRefreshToken(refreshToken);
 		userDto.setRefreshToken(refreshToken);

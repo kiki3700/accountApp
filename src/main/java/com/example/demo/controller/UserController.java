@@ -22,7 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.example.demo.dto.TokenDto;
 import com.example.demo.dto.UserDto;
 import com.example.demo.service.UserService;
-import com.example.demo.utils.AuthUtil;
 
 @RestController
 public class UserController {
@@ -30,8 +29,6 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	@Autowired
-	AuthUtil authUtil;
 	
 	@GetMapping("/signin")
 	public ModelAndView getLoginPage() {
