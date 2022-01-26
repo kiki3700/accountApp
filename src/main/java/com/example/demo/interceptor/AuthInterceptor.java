@@ -17,8 +17,6 @@ import com.example.demo.dto.UserDto;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.utils.AuthUtil;
 
-import io.jsonwebtoken.ExpiredJwtException;
-
 @Component
 public class AuthInterceptor implements HandlerInterceptor{
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
