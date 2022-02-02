@@ -1,10 +1,7 @@
 package com.example.demo.controller;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,9 +40,12 @@ public class AccountingController {
 		mv.setViewName("accounting");
 		return mv;
 	}
-	@GetMapping("/report")
-	public ResponseEntity<List<ReportDto>> getReportList(@CookieValue(name = "access-token", required = true) String accessToken, @RequestParam boolean hidden,
-			@RequestParam(required = false)  Date reportingDate, @RequestParam(required = true)  boolean paging, @RequestParam(required = false)  Integer start, @RequestParam(required = false) Integer length ){
+	@GetMapping("/reports/{userId}")
+	public ResponseEntity<List<ReportDto>> getReportList(
+			@PathVariable String userId,
+			@RequestParam boolean hidden,
+			@RequestParam(required = false)  Date reportingDate,
+			@RequestParam(required = true)  Integer page){
 //		logger.debug("=======================================");
 //		logger.debug("request getReportList start");
 //		logger.debug("=======================================");
@@ -52,14 +53,13 @@ public class AccountingController {
 //		logger.debug("hidden : "+hidden);
 //		logger.debug("date : "+reportingDate);
 		ReportDto reportDto = new ReportDto();
-		String UserId = AuthUtil.getUserIdFromJWT(accessToken);
-		reportDto.setUserId(UserId);
+		reportDto.setUserId(userId);
 		reportDto.setReportingDate(reportingDate);
 		reportDto.setHidden(hidden);
-		if(paging) {
-			reportDto.setStart(start);
-			reportDto.setLength(length);
-			reportDto.setPaging(paging);
+		if(page !=0) {
+			reportDto.setStart(page);
+			reportDto.setLength(20);
+			reportDto.setPaging(true);
 		}
 		List<ReportDto> reportDtoList = reportService.getReportList(reportDto);
 //		
@@ -69,13 +69,14 @@ public class AccountingController {
 //		logger.debug("=======================================");
 		return ResponseEntity.ok().body(reportDtoList);
 	}
-	@PostMapping("/report")
-	public ResponseEntity<Void> postReport(@CookieValue(name = "access-token", required = true) String accessToken, @RequestBody ReportDto reportDto){
+	@PostMapping("/report/{userId}")
+	public ResponseEntity<Void> postReport(
+			@PathVariable String userId,
+			String accessToken,
+			@RequestBody ReportDto reportDto){
 //		logger.debug("=======================================");
 //		logger.debug("post report start");
 //		logger.debug("=======================================");
-		logger.debug(accessToken);
-		String userId = AuthUtil.getUserIdFromJWT(accessToken);
 		logger.debug("user : "+userId);
 		reportDto.setUserId(userId);
 		logger.debug(reportDto.toString());

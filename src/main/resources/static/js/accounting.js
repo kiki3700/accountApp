@@ -13,8 +13,10 @@ $(document).ready(function(){
 		dataType : 'json',
 		success : function(res){
 			$('#hello').text(res.name +"님 안녕하세요.")
+			userId = res.id;
 		}
 	})
+	
 	//가계부 초기화
 	setReportArt(new Date(), true)
 	
@@ -184,8 +186,8 @@ $(document).ready(function(){
 /*========================================================================================*/
 /*                                      static val                                                      */
 /*========================================================================================*/
-var start = 0;
-
+var page = 0;
+var userId;
 
 /*========================================================================================*/
 /*                                           기본 http 메서드                                                      */
@@ -194,12 +196,11 @@ var start = 0;
 function postReport(report){
 	$.ajax({
 		type : 'POST',
-		url : '/accounting/report',
+		url : '/accounting/report/'+userId,
 		async : false,
 		data : JSON.stringify(report),
 		contentType:'application/json;charset=utf-8',
 		success : function(res){
-			
 			alert("등록이 완료 되었습니다.")
 			$('#amount').val('')
 			$('#memo').val('')
@@ -214,17 +215,25 @@ function postReport(report){
 function getReport(date, hidden, paging){
 	var param = new Object();
 	param.hidden = hidden;
+	if(userId==null){
+		$.ajax({
+			type: 'GET',
+	    	async: false,
+			url : '/user',
+			dataType : 'json',
+			success : function(res){
+			userId = res.id;
+			}
+		})
+	} 
 	if(date !=null) param.reportingDate = date
-	param.paging = paging;
 	if(paging ==true){
-		param.start = start;
-		param.length = 20;
-		
-	}  
+		param.page = page;
+	} 
 	var obj
 	$.ajax({
 		type : 'GET',
-		url : '/accounting/report',
+		url : '/accounting/reports/'+userId,
 		async : false,
 		data : param,
 		success : function(res){
@@ -368,7 +377,7 @@ function drawCostChart(){
 function setReportArt(date, init){
 			if(init){
 				$('.reports_list').empty()
-				start = 0
+				page = 0
 
 			}
 			var res = getReport(date, false, true)
@@ -377,7 +386,7 @@ function setReportArt(date, init){
 				return;	
 			}
 			var len = res.length
-			start += len;
+			page += len;
 
 			if(len == 0 ){
 				if(init) {
@@ -391,7 +400,6 @@ function setReportArt(date, init){
 				var amount = res[i].amount
 				var date = dateToStrLong(res[i].reportingDate)
 				date = date.substr(0,date.length-5)
-				
 				var mainCategory = res[i].mainCategory
 				var subCategory = res[i].subCategory
 				var id = res[i].id
