@@ -72,11 +72,15 @@ refresh 토큰을 사용자 정보를 식별하여 access token을 재발급합�
  ## api
  RESTFUL api를 구현하기 위해 http 메서드 4가지를 모두 구현하였고, ResponseEntity를 사용하여 응답 staus를 활용하고자 했지만 부족하다고 생각합니다.
  ### accounting 도메인
- * "/accounting/report"
+ * "/accounting
   * GET : 가계부 내역을 취득합니다.
-  * POST : 가계부 내역을 등록합니다.
+   * uri : /reports/{userId} 
+  * POST : 가계부 내역을 등록합니다
+   * uri : /report/{userId}
   * DELETE : 가계부 내역을 삭제합니다.
+   * uri : /report 
   * PUT : 등록된 가계부를 수정합니다.
+   * uri : /report 
 * "/account/costPieChart"
   * GET : 소득 비중 차트를 그리기위한 데이터를 가져옵니다.
 ### user 도메인
